@@ -1,0 +1,10 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /sbdemo
+#cupSize: B
+#age: 18
+#content: "cupSize: ${cupSize}, age: ${age}"
+hello:
+  cupSize: F
+  age: 18
