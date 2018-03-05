@@ -1,7 +1,7 @@
-package com.doo.sbdemo;
+package com.doo.sbdemo.controller;
 
+import com.doo.sbdemo.properties.HelloProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 /**

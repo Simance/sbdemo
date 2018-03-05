@@ -1,6 +1,7 @@
-package com.doo.sbdemo;
+package com.doo.sbdemo.repository;
 
 
+import com.doo.sbdemo.domain.Girl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

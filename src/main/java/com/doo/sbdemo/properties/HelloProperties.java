@@ -1,4 +1,4 @@
-package com.doo.sbdemo;
+package com.doo.sbdemo.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

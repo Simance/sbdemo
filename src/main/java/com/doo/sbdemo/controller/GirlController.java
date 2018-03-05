@@ -1,8 +1,17 @@
-package com.doo.sbdemo;
+package com.doo.sbdemo.controller;
 
+import com.doo.sbdemo.domain.Girl;
+import com.doo.sbdemo.domain.Result;
+import com.doo.sbdemo.repository.GirlRepository;
+import com.doo.sbdemo.service.GirlService;
+import com.doo.sbdemo.utils.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,15 +25,22 @@ public class GirlController {
     private GirlRepository girlRepository;
     @Autowired
     private GirlService girlService;
+
+    //记录日志
+    private final static Logger logger = LoggerFactory.getLogger(GirlController.class);
     /**
      * 查询所有数据
      */
     @GetMapping(value = "/girls")
     public List<Girl> getAll(){
+        logger.info("do.....");
         return girlRepository.findAll();
     }
     /**
      * 新增数据
+     * @param cupSize
+     * @param age
+     * @return Girl
      */
     @PostMapping(value = "/girls")
     public Girl save(@RequestParam("cupSize") String cupSize,
@@ -34,6 +50,38 @@ public class GirlController {
         girl.setAge(age);
         girl.setCupSize(cupSize);
         return girlRepository.save(girl);
+    }
+    /**
+     * 新增数据
+     * @param girl
+     * @return Girl
+     */
+    @PostMapping(value = "/obj/girl")
+    public Result<Girl> save(@Valid Girl girl, BindingResult bindingResult){
+       /* if (bindingResult.hasErrors()){
+            Result result = new Result();
+            result.setCode(0);
+            result.setMsg(bindingResult.getFieldError().getDefaultMessage());
+            result.setData(null);
+            return result;
+        }
+        girl.getAge();
+        girl.getCupSize();
+        girl.getMoney();
+        Result result = new Result();
+        result.setCode(1);
+        result.setMsg("成功");
+        result.setData(girlRepository.save(girl));
+        return result;*/
+       //重构，使用util类
+        if(bindingResult.hasErrors()){
+//            return null;
+            return ResultUtil.error(0,bindingResult.getFieldError().getDefaultMessage());
+        }
+        /*girl.getAge();
+        girl.getCupSize();
+        girl.getMoney();*/
+        return ResultUtil.success(girlRepository.save(girl));
     }
     /**
      * 根据ID查询数据
@@ -76,5 +124,12 @@ public class GirlController {
     @GetMapping(value = "/addgirls")
     public void addGirls(){
         girlService.addGirls();
+    }
+    /**
+     * 查询数据（排除不符合条件的数据）
+     */
+    @GetMapping(value = "/obj/girl/getAge/{id}")
+    public void getAge(@PathVariable("id") Integer id) throws Exception {
+        girlService.findByAge(id);
     }
 }
