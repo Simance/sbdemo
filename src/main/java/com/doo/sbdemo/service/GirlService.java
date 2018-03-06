@@ -19,7 +19,7 @@ public class GirlService {
     private GirlRepository girlRepository;
 
     @Transactional
-    public void addGirls(){
+    public void addGirls() {
         Girl girlA = new Girl();
         girlA.setAge(18);
         girlA.setCupSize("A");
@@ -35,14 +35,24 @@ public class GirlService {
     public void findByAge(Integer id) throws Exception {
         Optional<Girl> girl = girlRepository.findById(id);
         Integer age = girl.get().getAge();
-        if (age<10){
+        if (age < 10) {
             //throw new Exception("年龄小于10");
             //throw new GirlException(100, "年龄小于10");
             throw new GirlException(ResultEnum.PRIMARY);
-        }else if (age>10 && age<16){
+        } else if (age > 10 && age < 16) {
             //throw new Exception("年龄大于10小于16");
 //            throw new GirlException(101, "年龄大于10小于16");
             throw new GirlException(ResultEnum.MIDDLE);
         }
+
+    }
+
+    /**
+     * 根据id查询数据
+     * @param id
+     * @return
+     */
+    public Girl findOne(Integer id){
+        return girlRepository.findById(id).get();
     }
 }
